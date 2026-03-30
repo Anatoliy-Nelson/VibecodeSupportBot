@@ -1,30 +1,34 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN")!;
 
 serve(async (req) => {
-  console.log(`${req.method} ${req.url}`);
-  // 1. Получаем данные от Telegram
-  const contentType = req.headers.get("content-type") || "";
-  let data;
-  
-  if (contentType.includes("application/json")) {
-    const text = await req.text();
-    data = text ? JSON.parse(text) : {};
-  } else {
-    data = {};
-  }
-  
-  const { message } = data;
-
-  // Если нет текста — игнорируем (фото, стикер и т.д.)
-  if (!message?.text) {
-    return new Response("OK", { status: 200 });
-  }
+  const { message } = await req.json();
+  if (!message?.text) return new Response("OK", { status: 200 });
 
   console.log(`Получено сообщение от ${message.from.first_name}: ${message.text}`);
 
-  // 2. Отправляем эхо-ответ обратно пользователю
+  // 1. Создаём клиент Supabase
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL") || Deno.env.get("DB_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || Deno.env.get("SERVICE_ROLE_KEY")!
+  );
+
+  // 2. Сохраняем сообщение в БД
+  const { error } = await supabase.from("messages").insert({
+    telegram_chat_id: message.chat.id,
+    username: message.from.first_name || "Unknown",
+    text: message.text,
+  });
+
+  if (error) {
+    console.error("Ошибка записи в БД:", error.message);
+  } else {
+    console.log("Сообщение сохранено в БД");
+  }
+
+  // 3. Отправляем эхо-ответ пользователю
   await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -36,6 +40,5 @@ serve(async (req) => {
 
   console.log(`Эхо-ответ отправлен в чат ${message.chat.id}`);
 
-  // 3. Возвращаем 200 — Telegram должен знать что мы получили
   return new Response("OK", { status: 200 });
 });
