@@ -61,6 +61,7 @@ export default function SigninWithPassword() {
         handleChange={handleChange}
         value={data.email}
         icon={<EmailIcon />}
+        iconPosition="right"
       />
 
       <InputGroup
@@ -72,6 +73,7 @@ export default function SigninWithPassword() {
         handleChange={handleChange}
         value={data.password}
         icon={<PasswordIcon />}
+        iconPosition="right"
       />
 
       {error && (
