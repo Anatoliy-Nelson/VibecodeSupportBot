@@ -9,18 +9,22 @@ export default function Header() {
 
   useEffect(() => setMounted(true), []);
 
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.href = "/auth/sign-in";
+  };
+
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6 dark:border-gray-800 dark:bg-gray-dark">
-      <h1 className="text-lg font-semibold text-dark dark:text-white">
+      <h1 className="text-lg font-semibold text-gray-7 dark:text-white">
         Админ-панель
       </h1>
 
       <div className="flex items-center gap-4">
-        {/* Переключатель темы */}
         {mounted && (
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-dark-5 hover:bg-gray-2 dark:border-gray-700 dark:text-dark-6 dark:hover:bg-dark-2"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-5 hover:bg-gray-2 dark:border-gray-700 dark:text-gray-5 dark:hover:bg-dark-2"
             aria-label="Переключить тему"
           >
             {theme === "dark" ? (
@@ -39,10 +43,16 @@ export default function Header() {
           </button>
         )}
 
-        {/* Аватар */}
         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-medium text-white">
           A
         </div>
+
+        <button
+          onClick={handleLogout}
+          className="text-sm text-gray-5 hover:text-red dark:text-gray-5 dark:hover:text-red"
+        >
+          Выйти
+        </button>
       </div>
     </header>
   );

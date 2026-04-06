@@ -4,7 +4,7 @@ export type IconProps = SVGProps<SVGSVGElement>;
 
 export function EmailIcon(props: IconProps) {
   return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="currentColor" {...props}>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="currentColor" className="text-gray-5 dark:text-gray-5" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -16,7 +16,7 @@ export function EmailIcon(props: IconProps) {
 
 export function PasswordIcon(props: IconProps) {
   return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="currentColor" {...props}>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="currentColor" className="text-gray-5 dark:text-gray-5" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
