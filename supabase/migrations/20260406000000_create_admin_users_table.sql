@@ -1,5 +1,5 @@
--- Таблица администраторов
-CREATE TABLE admin_users (
+-- Таблица администраторов (без RLS — аутентификация через cookie)
+CREATE TABLE IF NOT EXISTS admin_users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email TEXT UNIQUE NOT NULL,
   password_hash TEXT NOT NULL,
@@ -11,53 +11,7 @@ CREATE TABLE admin_users (
 );
 
 -- Индекс для быстрого поиска по email
-CREATE INDEX idx_admin_users_email ON admin_users(email);
-
--- RLS: только аутентифицированные админы могут читать
-ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
-
--- Супер-админ видит всех
-CREATE POLICY "super_admin_can_view_all"
-  ON admin_users FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM admin_users au
-      WHERE au.id = auth.uid() AND au.role = 'super_admin'
-    )
-  );
-
--- Менеджер видит только себя
-CREATE POLICY "manager_can_view_self"
-  ON admin_users FOR SELECT
-  USING (id = auth.uid());
-
--- Только супер-админ может создавать/обновлять/удалять
-CREATE POLICY "super_admin_can_insert"
-  ON admin_users FOR INSERT
-  WITH CHECK (
-    EXISTS (
-      SELECT 1 FROM admin_users au
-      WHERE au.id = auth.uid() AND au.role = 'super_admin'
-    )
-  );
-
-CREATE POLICY "super_admin_can_update"
-  ON admin_users FOR UPDATE
-  USING (
-    EXISTS (
-      SELECT 1 FROM admin_users au
-      WHERE au.id = auth.uid() AND au.role = 'super_admin'
-    )
-  );
-
-CREATE POLICY "super_admin_can_delete"
-  ON admin_users FOR DELETE
-  USING (
-    EXISTS (
-      SELECT 1 FROM admin_users au
-      WHERE au.id = auth.uid() AND au.role = 'super_admin'
-    )
-  );
+CREATE INDEX IF NOT EXISTS idx_admin_users_email ON admin_users(email);
 
 -- Триггер для updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -68,6 +22,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS update_admin_users_updated_at ON admin_users;
 CREATE TRIGGER update_admin_users_updated_at
   BEFORE UPDATE ON admin_users
   FOR EACH ROW
