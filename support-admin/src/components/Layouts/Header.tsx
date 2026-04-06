@@ -3,16 +3,34 @@
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+  return match ? decodeURIComponent(match[2]) : null;
+}
+
 export default function Header() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [role, setRole] = useState<string>("");
+  const [fullName, setFullName] = useState<string>("");
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    const r = getCookie("user_role");
+    if (r) setRole(r);
+    // full_name можно хранить в sessionStorage при логине
+    const name = sessionStorage.getItem("user_full_name");
+    if (name) setFullName(name);
+  }, []);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
+    sessionStorage.removeItem("user_full_name");
     window.location.href = "/auth/sign-in";
   };
+
+  const roleLabel = role === "super_admin" ? "Супер-админ" : "Менеджер";
+  const initials = fullName ? fullName.charAt(0).toUpperCase() : "A";
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-3 bg-white px-6 dark:border-gray-6 dark:bg-dark-2">
@@ -24,7 +42,7 @@ export default function Header() {
         {mounted && (
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-5 hover:bg-gray-2 dark:border-gray-700 dark:text-gray-5 dark:hover:bg-dark-2"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-3 text-gray-5 hover:bg-gray-1 dark:border-gray-6 dark:text-gray-4 dark:hover:bg-dark-3"
             aria-label="Переключить тему"
           >
             {theme === "dark" ? (
@@ -43,13 +61,25 @@ export default function Header() {
           </button>
         )}
 
+        {/* Роль */}
+        {role && (
+          <span className={`rounded-full px-3 py-1 text-xs font-medium ${
+            role === "super_admin"
+              ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+              : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+          }`}>
+            {roleLabel}
+          </span>
+        )}
+
+        {/* Аватар */}
         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-medium text-white">
-          A
+          {initials}
         </div>
 
         <button
           onClick={handleLogout}
-          className="text-sm text-gray-5 hover:text-red dark:text-gray-5 dark:hover:text-red"
+          className="text-sm text-gray-5 hover:text-red dark:text-gray-4 dark:hover:text-red"
         >
           Выйти
         </button>

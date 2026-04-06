@@ -39,6 +39,10 @@ export default function SigninWithPassword() {
       const json = await res.json();
 
       if (json.success) {
+        // Сохраняем имя для отображения в Header
+        if (json.user?.full_name) {
+          sessionStorage.setItem("user_full_name", json.user.full_name);
+        }
         window.location.href = "/dashboard/messages";
       } else {
         setError(json.error || "Ошибка входа");
