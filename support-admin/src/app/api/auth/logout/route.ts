@@ -6,6 +6,7 @@ export async function POST() {
   response.cookies.set("auth_token", "", { maxAge: 0 });
   response.cookies.set("user_role", "", { maxAge: 0 });
   response.cookies.set("user_id", "", { maxAge: 0 });
+  response.cookies.set("user_full_name", "", { maxAge: 0 });
 
   return response;
 }

@@ -5,11 +5,6 @@ import bcrypt from "bcryptjs";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// По умолчанию для первого входа
-const DEFAULT_ADMIN_EMAIL = "admin@supportbot.ru";
-const DEFAULT_ADMIN_PASSWORD = "admin123";
-const DEFAULT_ADMIN_HASH = "$2a$10$X7qJ9Z8K5Y3W2V1U0T9S8eR7Q6P5O4N3M2L1K0J9I8H7G6F5E4D3C"; // bcrypt("admin123")
-
 export async function POST(req: Request) {
   const { email, password } = await req.json();
 
@@ -25,21 +20,15 @@ export async function POST(req: Request) {
   let user: { id: string; email: string; password_hash: string; role: string; full_name: string | null } | null = null;
 
   if (error || !users || users.length === 0) {
-    // Если таблица пустая — проверяем дефолтного админа (для первого входа)
-    if (email === DEFAULT_ADMIN_EMAIL && password === DEFAULT_ADMIN_PASSWORD) {
-      user = {
-        id: "00000000-0000-0000-0000-000000000000",
-        email: DEFAULT_ADMIN_EMAIL,
-        password_hash: DEFAULT_ADMIN_HASH,
-        role: "super_admin",
-        full_name: "Супер Админ",
-      };
-    } else {
-      return NextResponse.json(
-        { success: false, error: "Неверный email или пароль" },
-        { status: 401 }
-      );
-    }
+    // Дефолтный супер-админ (если таблица пуста)
+    const defaultHash = await bcrypt.hash("admin123", 10);
+    user = {
+      id: "00000000-0000-0000-0000-000000000000",
+      email: "admin@supportbot.ru",
+      password_hash: defaultHash,
+      role: "super_admin",
+      full_name: "Супер Админ",
+    };
   } else {
     user = users[0];
   }
@@ -64,7 +53,6 @@ export async function POST(req: Request) {
     },
   });
 
-  // Сохраняем роль и id в cookie
   response.cookies.set("auth_token", "authenticated", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -72,8 +60,16 @@ export async function POST(req: Request) {
     maxAge: 60 * 60 * 24 * 7,
   });
 
+  // role и full_name — без httpOnly, чтобы читались из JS
   response.cookies.set("user_role", user.role, {
-    httpOnly: true,
+    httpOnly: false,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+
+  response.cookies.set("user_full_name", user.full_name || "", {
+    httpOnly: false,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7,

@@ -18,14 +18,12 @@ export default function Header() {
     setMounted(true);
     const r = getCookie("user_role");
     if (r) setRole(r);
-    // full_name можно хранить в sessionStorage при логине
-    const name = sessionStorage.getItem("user_full_name");
+    const name = getCookie("user_full_name");
     if (name) setFullName(name);
   }, []);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
-    sessionStorage.removeItem("user_full_name");
     window.location.href = "/auth/sign-in";
   };
 
