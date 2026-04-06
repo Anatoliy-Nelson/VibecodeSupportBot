@@ -3,24 +3,77 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-primary: #5750F1;
+  --color-stroke: #E6EBF1;
+  --color-stroke-dark: #27303E;
+  --color-dark: #111928;
+  --color-dark-2: #1F2A37;
+  --color-dark-3: #374151;
+  --color-dark-4: #4B5563;
+  --color-dark-5: #6B7280;
+  --color-dark-6: #9CA3AF;
+  --color-dark-7: #D1D5DB;
+  --color-dark-8: #E5E7EB;
+  --color-gray: #EFF4FB;
+  --color-gray-dark: #122031;
+  --color-gray-1: #F9FAFB;
+  --color-gray-2: #F3F4F6;
+  --color-gray-3: #E5E7EB;
+  --color-gray-4: #D1D5DB;
+  --color-gray-5: #9CA3AF;
+  --color-gray-6: #6B7280;
+  --color-gray-7: #374151;
+  --color-green: #22AD5C;
+  --color-red: #F23030;
+  --color-red-light: #F56060;
+  --color-red-light-5: #FEEBEB;
+  --color-green-light-7: #E9FBF0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--color-primary);
+  --color-stroke: var(--color-stroke);
+  --color-stroke-dark: var(--color-stroke-dark);
+  --color-dark: var(--color-dark);
+  --color-dark-2: var(--color-dark-2);
+  --color-dark-3: var(--color-dark-3);
+  --color-dark-4: var(--color-dark-4);
+  --color-dark-5: var(--color-dark-5);
+  --color-dark-6: var(--color-dark-6);
+  --color-dark-7: var(--color-dark-7);
+  --color-dark-8: var(--color-dark-8);
+  --color-gray: var(--color-gray);
+  --color-gray-dark: var(--color-gray-dark);
+  --color-gray-1: var(--color-gray-1);
+  --color-gray-2: var(--color-gray-2);
+  --color-gray-3: var(--color-gray-3);
+  --color-gray-4: var(--color-gray-4);
+  --color-gray-5: var(--color-gray-5);
+  --color-gray-6: var(--color-gray-6);
+  --color-gray-7: var(--color-gray-7);
+  --color-green: var(--color-green);
+  --color-red: var(--color-red);
+  --color-red-light: var(--color-red-light);
+  --color-red-light-5: var(--color-red-light-5);
+  --color-green-light-7: var(--color-green-light-7);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  @apply dark:bg-dark dark:text-white;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom spacing utilities from NextAdmin */
+@utility size-* {
+  width: --value(--spacing-*);
+  height: --value(--spacing-*);
 }
