@@ -16,7 +16,9 @@ export function middleware(request: NextRequest) {
   }
 
   // Роуты аутентификации — редирект на дашборд если уже аутентифицирован
-  if (authPaths.some((p) => pathname.startsWith(p))) {
+  // (кроме страниц сброса пароля)
+  const resetPaths = ["/auth/forgot-password", "/auth/reset-password"];
+  if (authPaths.some((p) => pathname.startsWith(p)) && !resetPaths.includes(pathname)) {
     if (isAuthenticated) {
       return NextResponse.redirect(new URL("/dashboard/messages", request.url));
     }

@@ -103,9 +103,9 @@ export default function SigninWithPassword() {
 
         <Link
           href="/auth/forgot-password"
-          className="hover:text-primary dark:text-white dark:hover:text-primary"
+          className="hover:text-primary dark:text-gray-4 dark:hover:text-primary"
         >
-          Forgot Password?
+          Забыли пароль?
         </Link>
       </div>
 
