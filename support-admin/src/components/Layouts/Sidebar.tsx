@@ -42,10 +42,10 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-dark">
+    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-gray-3 bg-white dark:border-gray-6 dark:bg-dark-2">
       {/* Лого */}
-      <div className="flex h-16 items-center border-b border-gray-200 px-6 dark:border-gray-800">
-        <Link href="/dashboard" className="text-lg font-bold text-dark dark:text-white">
+      <div className="flex h-16 items-center border-b border-gray-3 px-6 dark:border-gray-6">
+        <Link href="/dashboard" className="text-lg font-bold text-gray-7 dark:text-white">
           SupportBot
         </Link>
       </div>
@@ -63,7 +63,7 @@ export default function Sidebar() {
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                 isActive
                   ? "bg-primary/10 text-primary dark:bg-primary/20"
-                  : "text-dark-5 hover:bg-gray-2 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-2 dark:hover:text-white",
+                  : "text-gray-5 hover:bg-gray-1 hover:text-gray-7 dark:text-gray-4 dark:hover:bg-dark-3 dark:hover:text-white",
               )}
             >
               {item.icon}

@@ -9,12 +9,12 @@ export default async function MessagesPage() {
 
   if (!supabaseUrl || !supabaseKey) {
     return (
-      <div className="rounded-[10px] bg-white p-8 shadow-card dark:bg-gray-dark">
+      <div className="rounded-[10px] bg-white p-8 shadow-card dark:bg-dark-2">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600">
+          <h1 className="text-2xl font-bold text-red">
             Переменные окружения не настроены
           </h1>
-          <p className="mt-2 text-dark-5 dark:text-dark-6">
+          <p className="mt-2 text-gray-5 dark:text-gray-4">
             Добавьте NEXT_PUBLIC_SUPABASE_URL и NEXT_PUBLIC_SUPABASE_ANON_KEY
           </p>
         </div>
@@ -29,10 +29,10 @@ export default async function MessagesPage() {
 
   if (error) {
     return (
-      <div className="rounded-[10px] bg-white p-8 shadow-card dark:bg-gray-dark">
+      <div className="rounded-[10px] bg-white p-8 shadow-card dark:bg-dark-2">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600">Ошибка загрузки</h1>
-          <p className="mt-2 text-dark-5 dark:text-dark-6">{error.message}</p>
+          <h1 className="text-2xl font-bold text-red">Ошибка загрузки</h1>
+          <p className="mt-2 text-gray-5 dark:text-gray-4">{error.message}</p>
         </div>
       </div>
     );
@@ -52,20 +52,20 @@ export default async function MessagesPage() {
     <div className="space-y-6">
       {/* Счётчики */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-[10px] bg-white p-6 shadow-card dark:bg-gray-dark">
-          <p className="text-sm text-dark-5 dark:text-dark-6">Всего сообщений</p>
-          <p className="mt-2 text-3xl font-bold text-dark dark:text-white">{totalMessages}</p>
+        <div className="rounded-[10px] bg-white p-6 shadow-card dark:bg-dark-2">
+          <p className="text-sm text-gray-5 dark:text-gray-4">Всего сообщений</p>
+          <p className="mt-2 text-3xl font-bold text-gray-7 dark:text-white">{totalMessages}</p>
         </div>
-        <div className="rounded-[10px] bg-white p-6 shadow-card dark:bg-gray-dark">
-          <p className="text-sm text-dark-5 dark:text-dark-6">Пользователей</p>
-          <p className="mt-2 text-3xl font-bold text-dark dark:text-white">{uniqueUsers}</p>
+        <div className="rounded-[10px] bg-white p-6 shadow-card dark:bg-dark-2">
+          <p className="text-sm text-gray-5 dark:text-gray-4">Пользователей</p>
+          <p className="mt-2 text-3xl font-bold text-gray-7 dark:text-white">{uniqueUsers}</p>
         </div>
       </div>
 
       {/* Таблица сообщений */}
-      <div className="rounded-[10px] bg-white shadow-card dark:bg-gray-dark">
-        <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-800">
-          <h2 className="text-lg font-semibold text-dark dark:text-white">
+      <div className="rounded-[10px] bg-white shadow-card dark:bg-dark-2">
+        <div className="border-b border-gray-3 px-6 py-4 dark:border-gray-6">
+          <h2 className="text-lg font-semibold text-gray-7 dark:text-white">
             Сообщения
           </h2>
         </div>
@@ -82,7 +82,7 @@ export default async function MessagesPage() {
               ))}
             </div>
           ) : (
-            <p className="py-8 text-center text-dark-5 dark:text-dark-6">
+            <p className="py-8 text-center text-gray-5 dark:text-gray-4">
               Сообщений пока нет
             </p>
           )}

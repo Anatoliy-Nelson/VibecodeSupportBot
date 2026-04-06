@@ -15,7 +15,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6 dark:border-gray-800 dark:bg-gray-dark">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-3 bg-white px-6 dark:border-gray-6 dark:bg-dark-2">
       <h1 className="text-lg font-semibold text-gray-7 dark:text-white">
         Админ-панель
       </h1>

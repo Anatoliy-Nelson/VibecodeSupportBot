@@ -7,15 +7,15 @@ export const metadata: Metadata = {
 
 export default function SignIn() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray p-4 dark:bg-dark-2">
-      <div className="w-full max-w-[450px] rounded-[10px] bg-white shadow-card dark:bg-gray-dark">
+    <div className="flex min-h-screen items-center justify-center bg-gray-2 p-4 dark:bg-dark">
+      <div className="w-full max-w-[450px] rounded-[10px] bg-white shadow-card dark:bg-dark-2">
         <div className="w-full p-8 sm:p-12.5">
           {/* Лого */}
           <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold text-dark dark:text-white">
+            <h1 className="text-2xl font-bold text-gray-7 dark:text-white">
               SupportBot
             </h1>
-            <p className="mt-2 text-sm text-dark-5 dark:text-dark-6">
+            <p className="mt-2 text-sm text-gray-5 dark:text-gray-4">
               Войдите в админ-панель
             </p>
           </div>

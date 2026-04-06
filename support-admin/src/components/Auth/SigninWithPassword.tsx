@@ -80,7 +80,7 @@ export default function SigninWithPassword() {
         </div>
       )}
 
-      <div className="mb-6 flex items-center justify-between gap-2 py-2 font-medium">
+      <div className="mb-6 flex items-center justify-between gap-2 py-2 font-medium text-gray-6 dark:text-gray-4">
         <Checkbox
           label="Remember me"
           name="remember"
