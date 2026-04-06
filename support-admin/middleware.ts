@@ -8,6 +8,11 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isAuthenticated = request.cookies.get("auth_token")?.value === "authenticated";
 
+  // Разрешаем Google OAuth callback
+  if (pathname.startsWith("/api/auth/google")) {
+    return NextResponse.next();
+  }
+
   // Защищённые роуты — редирект на логин если не аутентифицирован
   if (protectedPaths.some((p) => pathname.startsWith(p))) {
     if (!isAuthenticated) {
