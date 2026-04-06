@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import MessageGroup from "@/components/MessageGroup";
 
 export default async function MessagesPage() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -71,38 +72,13 @@ export default async function MessagesPage() {
         </div>
 
         {Object.keys(groupedMessages).length > 0 ? (
-          <div className="space-y-6">
+          <div className="space-y-4">
             {Object.entries(groupedMessages).map(([chatId, userMessages]) => (
-              <div key={chatId} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                {/* Заголовок группы */}
-                <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
-                  <div className="flex items-center gap-3">
-                    <span className="font-semibold text-gray-900">
-                      {userMessages![0]?.username}
-                    </span>
-                    <span className="text-xs text-gray-400 font-mono">
-                      chat_id: {chatId}
-                    </span>
-                  </div>
-                  <span className="text-sm text-gray-500">
-                    {userMessages!.length} сообщ.
-                  </span>
-                </div>
-
-                {/* Сообщения пользователя */}
-                <div className="divide-y divide-gray-100">
-                  {userMessages?.map((msg) => (
-                    <div key={msg.id} className="p-4">
-                      <div className="flex justify-between items-start mb-1">
-                        <time className="text-xs text-gray-400">
-                          {new Date(msg.created_at).toLocaleString("ru-RU")}
-                        </time>
-                      </div>
-                      <p className="text-gray-700">{msg.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <MessageGroup
+                key={chatId}
+                chatId={chatId}
+                messages={userMessages!}
+              />
             ))}
           </div>
         ) : (
