@@ -1,6 +1,9 @@
 import { supabase } from "@/lib/supabase";
 import MessageGroup from "@/components/MessageGroup";
 
+// Отключаем кэширование — данные всегда свежие
+export const dynamic = "force-dynamic";
+
 export default async function MessagesPage() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
