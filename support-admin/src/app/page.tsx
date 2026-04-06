@@ -1,10 +1,43 @@
 import { supabase } from "@/lib/supabase";
 
 export default async function MessagesPage() {
-  const { data: messages } = await supabase
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-8 flex items-center justify-center">
+        <div className="max-w-md text-center">
+          <h1 className="text-2xl font-bold mb-4 text-red-600">
+            Переменные окружения не настроены
+          </h1>
+          <p className="text-gray-600">
+            Добавьте в Vercel Dashboard:
+          </p>
+          <ul className="text-left mt-4 text-sm text-gray-500 space-y-2">
+            <li><code>NEXT_PUBLIC_SUPABASE_URL</code></li>
+            <li><code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code></li>
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  const { data: messages, error } = await supabase
     .from("messages")
     .select("*")
     .order("created_at", { ascending: false });
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-8 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4 text-red-600">Ошибка загрузки</h1>
+          <p className="text-gray-600">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
