@@ -32,6 +32,20 @@ serve(async (req) => {
     `Получено сообщение от ${message.from.first_name}: ${message.text}`,
   );
 
+  // Обработка команды /start
+  if (message.text === "/start") {
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: message.chat.id,
+        text: "Здравствуйте! Опишите вашу проблему, и мы поможем.",
+      }),
+    });
+    console.log(`Приветственное сообщение отправлено в чат ${message.chat.id}`);
+    return new Response("OK", { status: 200 });
+  }
+
   // Создаём клиент Supabase
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL") || Deno.env.get("DB_URL")!,

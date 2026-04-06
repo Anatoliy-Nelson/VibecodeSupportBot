@@ -39,37 +39,74 @@ export default async function MessagesPage() {
     );
   }
 
+  // Группировка по chat_id
+  const groupedMessages = messages?.reduce<Record<string, typeof messages>>((acc, msg) => {
+    const chatId = String(msg.telegram_chat_id);
+    if (!acc[chatId]) acc[chatId] = [];
+    acc[chatId].push(msg);
+    return acc;
+  }, {}) || {};
+
+  // Счётчики
+  const totalMessages = messages?.length || 0;
+  const uniqueUsers = Object.keys(groupedMessages).length;
+
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold mb-6 text-gray-900">
           SupportBot — Сообщения
         </h1>
 
-        {messages && messages.length > 0 ? (
-          <div className="space-y-4">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className="bg-white rounded-lg border border-gray-200 p-4"
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <span className="font-semibold text-gray-900">
-                    {msg.username}
+        {/* Счётчики */}
+        <div className="grid grid-cols-2 gap-4 mb-8">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 text-center">
+            <p className="text-sm text-gray-500">Всего сообщений</p>
+            <p className="text-3xl font-bold text-gray-900">{totalMessages}</p>
+          </div>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 text-center">
+            <p className="text-sm text-gray-500">Уникальных пользователей</p>
+            <p className="text-3xl font-bold text-gray-900">{uniqueUsers}</p>
+          </div>
+        </div>
+
+        {Object.keys(groupedMessages).length > 0 ? (
+          <div className="space-y-6">
+            {Object.entries(groupedMessages).map(([chatId, userMessages]) => (
+              <div key={chatId} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                {/* Заголовок группы */}
+                <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <span className="font-semibold text-gray-900">
+                      {userMessages![0]?.username}
+                    </span>
+                    <span className="text-xs text-gray-400 font-mono">
+                      chat_id: {chatId}
+                    </span>
+                  </div>
+                  <span className="text-sm text-gray-500">
+                    {userMessages!.length} сообщ.
                   </span>
-                  <time className="text-xs text-gray-400">
-                    {new Date(msg.created_at).toLocaleString("ru-RU")}
-                  </time>
                 </div>
-                <p className="text-gray-700 mb-2">{msg.text}</p>
-                <span className="text-xs text-gray-400 font-mono">
-                  chat_id: {msg.telegram_chat_id}
-                </span>
+
+                {/* Сообщения пользователя */}
+                <div className="divide-y divide-gray-100">
+                  {userMessages?.map((msg) => (
+                    <div key={msg.id} className="p-4">
+                      <div className="flex justify-between items-start mb-1">
+                        <time className="text-xs text-gray-400">
+                          {new Date(msg.created_at).toLocaleString("ru-RU")}
+                        </time>
+                      </div>
+                      <p className="text-gray-700">{msg.text}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">Сообщений пока нет</p>
+          <p className="text-gray-500 text-center py-8">Сообщений пока нет</p>
         )}
       </div>
     </div>
