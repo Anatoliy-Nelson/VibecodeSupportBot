@@ -37,6 +37,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
   defaultValue,
 }) => {
   const id = useId();
+  const isRight = iconPosition === "right";
 
   return (
     <div className={className}>
@@ -48,14 +49,13 @@ const InputGroup: React.FC<InputGroupProps> = ({
         {required && <span className="ml-1 select-none text-red">*</span>}
       </label>
 
-      <div
-        className={cn(
-          "relative mt-3 [&_svg]:absolute [&_svg]:top-1/2 [&_svg]:-translate-y-1/2",
-          iconPosition === "left"
-            ? "[&_svg]:left-4.5"
-            : "[&_svg]:right-4.5",
+      <div className="relative mt-3">
+        {isRight && icon && (
+          <span className="absolute right-3 top-1/2 -translate-y-1/2">
+            {icon}
+          </span>
         )}
-      >
+
         <input
           id={id}
           type={type}
@@ -68,8 +68,9 @@ const InputGroup: React.FC<InputGroupProps> = ({
             "w-full rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition focus:border-primary disabled:cursor-default disabled:bg-gray-2 data-[active=true]:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary dark:disabled:bg-dark dark:data-[active=true]:border-primary",
             type === "file"
               ? ""
-              : "px-5.5 py-3 text-gray-7 placeholder:text-gray-5 dark:text-white dark:placeholder:text-gray-5",
-            iconPosition === "left" && "pl-12.5",
+              : "px-4 py-3 text-gray-7 placeholder:text-gray-5 dark:text-white dark:placeholder:text-gray-5",
+            !isRight && icon ? "pl-10" : "",
+            isRight && icon ? "pr-10" : "",
             height === "sm" && "py-2.5",
           )}
           required={required}
@@ -77,7 +78,11 @@ const InputGroup: React.FC<InputGroupProps> = ({
           data-active={active}
         />
 
-        {icon}
+        {!isRight && icon && (
+          <span className="absolute left-3 top-1/2 -translate-y-1/2">
+            {icon}
+          </span>
+        )}
       </div>
     </div>
   );
