@@ -44,5 +44,27 @@
 - \"D\" \"support-admin/test-hook-2.js\"
 - \"D\" \"support-admin/test-hook.js\"
 
+
+### [2026-04-13] fix | исправлено дублирование типа коммита и улучшена обработка путей
+- **Автор:** Anatoliy Manzhola
+- **Коммит:** \"d5042b5683d6856cc57a93e17e2f9bdd18de5a73\"
+- **Изменённые файлы:**
+- \"M\" \"scripts/auto-log-to-wiki.ps1\"
+
+### [2026-04-13] ingest | Claude Memory Compiler
+- **Источник:** https://github.com/coleam00/claude-memory-compiler.git
+- **Создана заметка:** [[wiki/concepts/claude-memory-compiler]]
+- **Тип:** concept
+- **Содержание:** Автоматическая система компиляции разговоров с LLM в базу знаний
+- **Ключевые концепции:** 
+  - Архитектура: daily logs → compile → knowledge base (index-guided, no RAG)
+  - Hooks: session-start, session-end, pre-compact
+  - Flush: фоновое извлечение знаний через Claude Agent SDK
+  - Compile: инкрементальная сборка с SHA-256 трекингом
+  - Query: индекс-управляемый поиск (лучше векторного на масштабе 50-500 статей)
+  - Lint: 7 проверок здоровья базы знаний
+- **Теги:** #memory #automation #claude #karpathy #llm
+- **Стоимость:** $0.45-0.65 за компиляцию одного daily log
+
 ---
 *Последнее обновление: 2026-04-13*

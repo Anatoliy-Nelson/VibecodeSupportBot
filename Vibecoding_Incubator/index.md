@@ -5,7 +5,8 @@
 ### 📄 Концепции (`wiki/concepts/`)
 | Заметка | Описание | Теги |
 |---------|----------|------|
-| [[llm-wiki-pattern-karpathy]] | Паттерн LLM Wiki от Андрея Карпаты | #llm #wiki #pattern |
+| [[wiki/concepts/llm-wiki-pattern-karpathy]] | Паттерн LLM Wiki от Андрея Карпаты | #llm #wiki #pattern |
+| [[wiki/concepts/claude-memory-compiler]] | Автоматическая компиляция разговоров с LLM в знания | #memory #automation #claude |
 
 ### 👥 Сущности (`wiki/entities/`)
 *Пока нет записей*
