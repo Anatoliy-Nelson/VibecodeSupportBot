@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd /d f:\\IT-Incubator-Projects\\VibecodeSupportBot && set Path=C:\\Users\\Sithe\\.local\\bin;%Path% && uv run python scripts/memory-config.py && uv run python hooks/session-start.py",
+            "command": "cd /d f:\\IT-Incubator-Projects\\VibecodeSupportBot && set Path=C:\\Users\\Sithe\\.local\\bin;%Path% && uv run python hooks/session-start.py",
             "timeout": 15
           }
         ]
