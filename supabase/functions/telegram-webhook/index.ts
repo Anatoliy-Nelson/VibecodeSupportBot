@@ -1,8 +1,13 @@
 import { serve } from "std/http";
 import { handleCorsPreflight, createMethodNotAllowedResponse, hasTextMessage, parseRequestBody, createOkResponse } from "./utils/validation.ts";
 import { handleStartCommand, isStartCommand } from "./handlers/start-command.ts";
-import { saveMessageToDatabase } from "./services/database.ts";
-import { sendTelegramMessage } from "./utils/telegram.ts";
+import { 
+  upsertTelegramUser, 
+  getOpenTicket, 
+  addConversationMessage, 
+  getTicketWithManager 
+} from "./services/database.ts";
+import { sendTelegramMessage, sendStatusMessage, escapeHtml } from "./utils/telegram.ts";
 
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN")!;
 
@@ -27,7 +32,7 @@ serve(async (req) => {
   }
 
   console.log(
-    `Получено сообщение от ${message.from.first_name}: ${message.text}`,
+    `Получено сообщение от ${message.from.first_name} (@${message.from.username || 'no-username'}): ${message.text}`,
   );
 
   // Обработка команды /start
@@ -36,19 +41,59 @@ serve(async (req) => {
     return createOkResponse();
   }
 
-  // Сохраняем сообщение в БД
-  await saveMessageToDatabase(
+  // ============================================
+  // НОВАЯ ЛОГИКА: система тикетов
+  // ============================================
+
+  // 1. Создаём или обновляем пользователя
+  const userResult = await upsertTelegramUser(
     message.chat.id,
+    message.from.username,
     message.from.first_name,
-    message.text,
+    message.from.last_name,
   );
 
-  // Отправляем эхо-ответ пользователю
-  await sendTelegramMessage(
-    BOT_TOKEN,
-    message.chat.id,
-    `🤖 Вы написали: ${message.text}`,
-  );
+  if (!userResult.success || !userResult.data) {
+    console.error("Не удалось создать/обновить пользователя:", userResult.error);
+    await sendTelegramMessage(
+      BOT_TOKEN,
+      message.chat.id,
+      "⚠️ Произошла ошибка. Попробуйте позже.",
+    );
+    return createOkResponse();
+  }
+
+  const user = userResult.data;
+
+  // 2. Проверяем, есть ли открытый тикет
+  const { hasTicket, ticket } = await getOpenTicket(user.id);
+
+  if (hasTicket && ticket) {
+    // Есть открытый тикет → добавляем сообщение в conversation
+    await addConversationMessage(
+      ticket.id,
+      "user",
+      user.id,
+      message.text,
+    );
+
+    // Проверяем, назначен ли менеджер
+    const { manager } = await getTicketWithManager(ticket.id);
+
+    if (manager) {
+      // Менеджер назначен → отвечаем accordingly
+      await sendStatusMessage(BOT_TOKEN, message.chat.id, "reply", {
+        managerName: "Менеджер", // TODO: получить из admin_users
+      });
+    } else {
+      // Менеджер не назначен → просто подтверждаем
+      await sendStatusMessage(BOT_TOKEN, message.chat.id, "received");
+    }
+  } else {
+    // Нет открытого тикета → просто подтверждаем получение
+    // (тикет создаётся вручную менеджером в админ-панели)
+    await sendStatusMessage(BOT_TOKEN, message.chat.id, "received");
+  }
 
   return createOkResponse();
 });

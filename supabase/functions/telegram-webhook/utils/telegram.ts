@@ -21,6 +21,7 @@ export async function sendTelegramMessage(
       body: JSON.stringify({
         chat_id: chatId,
         text,
+        parse_mode: "HTML",
       }),
     });
 
@@ -37,4 +38,51 @@ export async function sendTelegramMessage(
     console.error("Ошибка вызова Telegram API:", error);
     return false;
   }
+}
+
+/**
+ * Отправить статус-сообщение (для пользователя)
+ */
+export async function sendStatusMessage(
+  botToken: string,
+  chatId: number,
+  statusType: "received" | "assigned" | "closed" | "reply",
+  additionalInfo?: { managerName?: string; ticketId?: string },
+): Promise<boolean> {
+  const messages = {
+    received: "✅ <b>Сообщение получено!</b>\n\n" +
+      "Ваше сообщение записано. Менеджер ответит вам в ближайшее время. 🕐",
+    
+    assigned: "👋 <b>Менеджер назначен!</b>\n\n" +
+      (additionalInfo?.managerName 
+        ? `Ваш вопрос курирует менеджер: <b>${additionalInfo.managerName}</b>\n` 
+        : "Ваш вопрос назначен на менеджера.\n") +
+      (additionalInfo?.ticketId 
+        ? `Номер тикета: <code>#${additionalInfo.ticketId.slice(0, 8)}</code>` 
+        : ""),
+    
+    closed: "🔒 <b>Тикет закрыт</b>\n\n" +
+      "Ваш вопрос был решён. Если нужна ещё помощь — напишите снова!",
+    
+    reply: "💬 <b>Ответ менеджера:</b>\n\n{text}",
+  };
+
+  let text = messages[statusType];
+  
+  if (statusType === "reply" && additionalInfo?.managerName) {
+    text = `<b>${additionalInfo.managerName}</b> отвечает:\n\n${additionalInfo.text || ""}`;
+  }
+
+  return sendTelegramMessage(botToken, chatId, text);
+}
+
+/**
+ * Экранировать HTML теги в сообщении пользователя
+ */
+export function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }

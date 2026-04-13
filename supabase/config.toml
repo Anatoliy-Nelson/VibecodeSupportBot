@@ -405,3 +405,9 @@ entrypoint = "./functions/telegram-webhook/index.ts"
 # Specifies static files to be bundled with the function. Supports glob patterns.
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/telegram-webhook/*.html" ]
+
+[functions.admin-api]
+enabled = true
+verify_jwt = true
+import_map = "./functions/admin-api/deno.json"
+entrypoint = "./functions/admin-api/index.ts"
