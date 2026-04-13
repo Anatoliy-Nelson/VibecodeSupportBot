@@ -171,5 +171,18 @@
 - \"A\" \".qwen/settings.json.orig\"
 - \"A\" \"uv.lock\"
 
+
+### [2026-04-13] refactor | разделение telegram-webhook на модули (utils, services, handlers) + обновление C4 диаграммы
+- **Автор:** Anatoliy Manzhola
+- **Коммит:** \"fa2387bdad61c69baf2a899e38d9f5dd9045cde8\"
+- **Изменённые файлы:**
+- \"M\" \"docs/C4_DIAGRAMS.md\"
+- \"A\" \"supabase/functions/telegram-webhook/handlers/start-command.ts\"
+- \"M\" \"supabase/functions/telegram-webhook/index.ts\"
+- \"A\" \"supabase/functions/telegram-webhook/services/database.ts\"
+- \"A\" \"supabase/functions/telegram-webhook/utils/cors.ts\"
+- \"A\" \"supabase/functions/telegram-webhook/utils/telegram.ts\"
+- \"A\" \"supabase/functions/telegram-webhook/utils/validation.ts\"
+
 ---
 *Последнее обновление: 2026-04-13*
