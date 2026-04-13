@@ -12,7 +12,9 @@
 *Пока нет записей*
 
 ### 🎯 Темы (`wiki/topics/`)
-*Пока нет записей*
+| Заметка | Описание | Теги |
+|---------|----------|------|
+| [[wiki/topics/vibecode-support-bot-project-analysis]] | Полный анализ проекта VibecodeSupportBot | #project #architecture |
 
 ### 🔬 Синтез (`wiki/synthesis/`)
 *Пока нет записей*

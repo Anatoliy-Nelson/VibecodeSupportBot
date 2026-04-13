@@ -66,5 +66,93 @@
 - **Теги:** #memory #automation #claude #karpathy #llm
 - **Стоимость:** $0.45-0.65 за компиляцию одного daily log
 
+
+### [2026-04-13] feat | интегрирован Claude Memory Compiler hooks
+- **Автор:** Anatoliy Manzhola
+- **Коммит:** \"794b14a899ee14b4e4c28ceccf58eb4fdba88fac\"
+- **Изменённые файлы:**
+- \"A\" \".claude/settings.json\"
+- \"M\" \".gitignore\"
+- \"A\" \"AGENTS.md\"
+- \"A\" \"hooks/pre-compact.py\"
+- \"A\" \"hooks/session-end.py\"
+- \"A\" \"hooks/session-start.py\"
+- \"A\" \"pyproject.toml\"
+- \"A\" \"scripts/memory-compile.py\"
+- \"A\" \"scripts/memory-config.py\"
+- \"A\" \"scripts/memory-flush.py\"
+- \"A\" \"scripts/memory-lint.py\"
+- \"A\" \"scripts/memory-query.py\"
+- \"A\" \"scripts/memory-utils.py\"
+
+
+### [2026-04-13] fix | исправлены импорты в скриптах (переименованы memory-*.py → *.py)
+- **Автор:** Anatoliy Manzhola
+- **Коммит:** \"e5565600d9b2c33c8bee2ef3105a452516049789\"
+- **Изменённые файлы:**
+- \"M\" \".claude/settings.json\"
+- \"A\" \"scripts/__pycache__/config.cpython-314.pyc\"
+- \"A\" \"scripts/__pycache__/utils.cpython-314.pyc\"
+- \"A\" \"scripts/compile.py\"
+- \"A\" \"scripts/config.py\"
+- \"A\" \"scripts/flush.py\"
+- \"A\" \"scripts/lint.py\"
+- \"D\" \"scripts/memory-compile.py\"
+- \"D\" \"scripts/memory-config.py\"
+- \"D\" \"scripts/memory-flush.py\"
+- \"D\" \"scripts/memory-lint.py\"
+- \"D\" \"scripts/memory-query.py\"
+- \"D\" \"scripts/memory-utils.py\"
+- \"A\" \"scripts/query.py\"
+- \"A\" \"scripts/state.json\"
+- \"A\" \"scripts/utils.py\"
+
+
+### [2026-04-13] docs | добавлен README с командами для работы с базой знаний
+- **Автор:** Anatoliy Manzhola
+- **Коммит:** \"8ac349a831cabe603955df644056383cb55a4170\"
+- **Изменённые файлы:**
+- \"A\" \"README.md\"
+
+
+### [2026-04-13] update | изменено время авто-компиляции с 18:00 на 00:05
+- **Автор:** Anatoliy Manzhola
+- **Коммит:** \"a3e1889b6e6e9b2c339202574e878650dd36f46e\"
+- **Изменённые файлы:**
+- \"M\" \"README.md\"
+- \"M\" \"scripts/flush.py\"
+
+
+### [2026-04-13] feat | добавлен авто-lint через Windows Task Scheduler (каждый день в 10:00)
+- **Автор:** Anatoliy Manzhola
+- **Коммит:** \"a7f68ff9f9de3775e1723c67dffc804126afda60\"
+- **Изменённые файлы:**
+- \"M\" \"README.md\"
+- \"A\" \"scripts/auto-lint.ps1\"
+- \"A\" \"scripts/setup-lint-task.ps1\"
+
+
+### [2026-04-13] update | изменено время авто-lint с 10:00 на 22:00
+- **Автор:** Anatoliy Manzhola
+- **Коммит:** \"c0f2d5acb2372e635ecba1e4a31bd58101bcc323\"
+- **Изменённые файлы:**
+- \"M\" \"README.md\"
+- \"M\" \"scripts/setup-lint-task.ps1\"
+
+### [2026-04-13] analysis | Полный анализ проекта VibecodeSupportBot
+- **Создана заметка:** [[wiki/topics/vibecode-support-bot-project-analysis]]
+- **Тип:** topic
+- **Содержание:**
+  - Полная структура проекта (все файлы и папки)
+  - Технологии: Next.js 16.2.2, React 19.2.4, Supabase (PostgreSQL 17), Deno Edge Functions
+  - База данных: 3 таблицы (messages, admin_users, password_reset_tokens) с RLS
+  - API Endpoints: Telegram webhook, auth routes (login, logout, Google OAuth, forgot/reset password), managers CRUD
+  - Support Admin маршруты: /auth/* (публичные), /dashboard/* (защищённые)
+  - Knowledge Base System: Claude Memory Compiler (авто) + Vibecoding_Incubator wiki (ручная)
+  - Автоматизация: Git hook post-commit (log.md), Windows Task Scheduler (lint в 22:00)
+  - Инфраструктура: Vercel хостинг, Supabase облако, Telegram Bot API
+  - C4-диаграммы в docs/ (System, Container, Component, Code уровни)
+- **Теги:** #project #architecture #nextjs #supabase #telegram #vercel #knowledge-base
+
 ---
 *Последнее обновление: 2026-04-13*
