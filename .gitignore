@@ -61,3 +61,6 @@ __pycache__/
 scripts/state.json
 scripts/last-flush.json
 daily/*.md.tmp
+
+# Temporary user files
+etc/

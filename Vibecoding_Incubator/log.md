@@ -154,5 +154,12 @@
   - C4-диаграммы в docs/ (System, Container, Component, Code уровни)
 - **Теги:** #project #architecture #nextjs #supabase #telegram #vercel #knowledge-base
 
+
+### [2026-04-13] docs | созданы полноценные C4 диаграммы (4 уровня по стандарту)
+- **Автор:** Anatoliy Manzhola
+- **Коммит:** \"28fb458b7c9d8dda958233e1284e6132da9553f8\"
+- **Изменённые файлы:**
+- \"M\" \"docs/C4_DIAGRAMS.md\"
+
 ---
 *Последнее обновление: 2026-04-13*

@@ -110,7 +110,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Добро пожаловать.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Обратные ссылки для Добро пожаловать"
+              "title": "Обратные ссылки"
             }
           },
           {
@@ -129,12 +128,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Добро пожаловать.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Исходящие ссылки из Добро пожаловать"
+              "title": "Исходящие ссылки"
             }
           },
           {
@@ -172,13 +170,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Добро пожаловать.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Структура Добро пожаловать"
+              "title": "Структура"
             }
           }
         ]
@@ -200,8 +197,9 @@
       "obsidian-local-images-plus:Local Images Plus  0.16.4\r\nLocalize attachments (plugin folder)": false
     }
   },
-  "active": "684b47528be033dc",
+  "active": "6358b6502d4c1f93",
   "lastOpenFiles": [
+    "Добро пожаловать.md",
     "wiki/topics/vibecode-support-bot-project-analysis.md",
     "wiki/concepts/claude-memory-compiler.md",
     "wiki/concepts/llm-wiki-pattern-karpathy.md",
@@ -215,7 +213,6 @@
     "llm-wiki-pattern-karpathy.md",
     "log.md",
     "index.md",
-    "QWEN.md",
-    "Добро пожаловать.md"
+    "QWEN.md"
   ]
 }
