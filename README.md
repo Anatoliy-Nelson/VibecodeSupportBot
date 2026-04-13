@@ -49,7 +49,7 @@ uv run python scripts/lint.py --structural-only  # только структур
 
 **Авто-lint по расписанию:**
 - Настроен через Windows Task Scheduler
-- Запускается **каждый день в 10:00**
+- Запускается **каждый день в 22:00**
 - Скрипт: `scripts/auto-lint.ps1`
 - Управление:
   ```powershell

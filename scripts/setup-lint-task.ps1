@@ -3,7 +3,7 @@
 
 $TaskName = "VibecodeSupportBot-DailyLint"
 $ScriptPath = "f:\IT-Incubator-Projects\VibecodeSupportBot\scripts\auto-lint.ps1"
-$StartTime = [datetime]::Today.AddHours(10) # 10:00 AM
+$StartTime = [datetime]::Today.AddHours(22) # 10:00 PM
 
 # Проверяем, существует ли уже задача
 $ExistingTask = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue

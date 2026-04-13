@@ -135,7 +135,7 @@ uv run python scripts/lint.py --structural-only  # проверки
 
 **Авто-lint по расписанию:**
 - Windows Task Scheduler: `VibecodeSupportBot-DailyLint`
-- Расписание: каждый день в 10:00
+- Расписание: каждый день в 22:00
 - Скрипт: `scripts/auto-lint.ps1`
 - Запуск вручную: `Start-ScheduledTask -TaskName 'VibecodeSupportBot-DailyLint'`
 
