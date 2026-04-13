@@ -47,6 +47,22 @@ uv run python scripts/lint.py                 # все проверки (вкл�
 uv run python scripts/lint.py --structural-only  # только структурные проверки (бесплатно)
 ```
 
+**Авто-lint по расписанию:**
+- Настроен через Windows Task Scheduler
+- Запускается **каждый день в 10:00**
+- Скрипт: `scripts/auto-lint.ps1`
+- Управление:
+  ```powershell
+  # Запустить вручную
+  Start-ScheduledTask -TaskName 'VibecodeSupportBot-DailyLint'
+  
+  # Посмотреть задачу
+  Get-ScheduledTask -TaskName 'VibecodeSupportBot-DailyLint'
+  
+  # Удалить задачу
+  Unregister-ScheduledTask -TaskName 'VibecodeSupportBot-DailyLint' -Confirm:$false
+  ```
+
 ### Git автоматизация
 
 После каждого `git commit` автоматически:

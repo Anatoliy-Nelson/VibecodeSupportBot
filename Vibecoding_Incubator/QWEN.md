@@ -128,10 +128,16 @@ project-root/
 
 **Команды:**
 ```bash
-uv run python scripts/memory-compile.py              # компиляция daily logs
-uv run python scripts/memory-query.py "вопрос"       # запрос к базе
-uv run python scripts/memory-lint.py --structural-only  # проверки
+uv run python scripts/compile.py              # компиляция daily logs
+uv run python scripts/query.py "вопрос"       # запрос к базе
+uv run python scripts/lint.py --structural-only  # проверки
 ```
+
+**Авто-lint по расписанию:**
+- Windows Task Scheduler: `VibecodeSupportBot-DailyLint`
+- Расписание: каждый день в 10:00
+- Скрипт: `scripts/auto-lint.ps1`
+- Запуск вручную: `Start-ScheduledTask -TaskName 'VibecodeSupportBot-DailyLint'`
 
 **Зависимости:** Установлены через `uv sync` (claude-agent-sdk, python-dotenv, tzdata)
 
