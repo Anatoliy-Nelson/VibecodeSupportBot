@@ -47,3 +47,17 @@ tmp/
 temp/
 *.tmp
 *.temp
+
+# Cloned repositories
+claude-memory-compiler/
+
+# Claude Memory Compiler runtime
+reports/
+*.pyc
+__pycache__/
+.venv/
+
+# State files (auto-generated)
+scripts/state.json
+scripts/last-flush.json
+daily/*.md.tmp

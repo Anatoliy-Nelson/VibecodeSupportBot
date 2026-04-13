@@ -90,7 +90,49 @@ Vibecoding_Incubator/
 - Найти сиротские страницы без входящих ссылок
 - Предложить новые источники для исследования
 
-## 🤖 Автоматизация логирования кода
+## 🤖 Claude Memory Compiler Integration
+
+### Автоматическая компиляция разговоров с AI
+
+**Структура в корне проекта:**
+```
+project-root/
+├── daily/                 # Ежедневные логи разговоров (auto)
+├── knowledge/             # Скомпилированные знания (auto)
+│   ├── index.md           # Мастер-каталог
+│   ├── log.md             # Build log
+│   ├── concepts/          # Атомарные знания
+│   ├── connections/       # Перекрёстные связи
+│   └── qa/                # Сохранённые ответы
+├── hooks/                 # Claude Code hooks
+│   ├── session-start.py   # Инжекция знаний в сессию
+│   ├── session-end.py     # Разговор → daily log
+│   └── pre-compact.py     # Страховка от потери контекста
+├── scripts/               # CLI инструменты
+│   ├── memory-compile.py  # Компилятор daily → knowledge
+│   ├── memory-query.py    # Index-guided retrieval
+│   ├── memory-lint.py     # 7 health checks
+│   ├── memory-flush.py    # Извлечение памяти
+│   ├── memory-config.py   # Конфигурация путей
+│   └── memory-utils.py    # Общие утилиты
+├── .claude/settings.json  # Hook конфигурация
+├── AGENTS.md              # Схема компилятора
+└── pyproject.toml         # Python зависимости
+```
+
+**Hooks (автоматически):**
+- **SessionStart** — при начале сессии инжектирует knowledge index
+- **SessionEnd** — при конце сессии сохраняет разговор в daily/
+- **PreCompact** — перед авто-компактизацией сохраняет контекст
+
+**Команды:**
+```bash
+uv run python scripts/memory-compile.py              # компиляция daily logs
+uv run python scripts/memory-query.py "вопрос"       # запрос к базе
+uv run python scripts/memory-lint.py --structural-only  # проверки
+```
+
+**Зависимости:** Установлены через `uv sync` (claude-agent-sdk, python-dotenv, tzdata)
 
 ### Git Hook (post-commit)
 - **Скрипт:** `scripts/auto-log-to-wiki.ps1`
