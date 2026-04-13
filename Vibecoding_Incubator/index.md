@@ -19,6 +19,11 @@
 ### 🔬 Синтез (`wiki/synthesis/`)
 *Пока нет записей*
 
+### 📊 Документация
+- **C4 Диаграммы:** `docs/C4_DIAGRAMS.md` — 4 уровня (System, Container, Component, Code)
+- **README.md** — общая документация и команды
+- **AGENTS.md** — схема Claude Memory Compiler
+
 ## 📋 Журнал изменений
 - [[log]] — Хронологический журнал всех изменений и новых записей
 
