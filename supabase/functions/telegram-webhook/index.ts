@@ -1,31 +1,29 @@
 import { serve } from "std/http";
-import { createClient } from "@supabase/supabase-js";
+import { handleCorsPreflight, createMethodNotAllowedResponse, hasTextMessage, parseRequestBody, createOkResponse } from "./utils/validation.ts";
+import { handleStartCommand, isStartCommand } from "./handlers/start-command.ts";
+import { saveMessageToDatabase } from "./services/database.ts";
+import { sendTelegramMessage } from "./utils/telegram.ts";
 
 const BOT_TOKEN = Deno.env.get("BOT_TOKEN")!;
 
 serve(async (req) => {
   // Обработка CORS preflight запросов
   if (req.method === "OPTIONS") {
-    return new Response("OK", {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    });
+    return handleCorsPreflight();
   }
 
   // Только POST запросы от Telegram
   if (req.method !== "POST") {
-    return new Response("Method not allowed", { status: 405 });
+    return createMethodNotAllowedResponse();
   }
 
-  const { message } = await req.json();
+  // Парсинг тела запроса
+  const body = await parseRequestBody(req);
+  const { message } = body;
 
   // Если нет текста — игнорируем (фото, стикер и т.д.)
-  if (!message?.text) {
-    return new Response("OK", { status: 200 });
+  if (!hasTextMessage(body)) {
+    return createOkResponse();
   }
 
   console.log(
@@ -33,49 +31,24 @@ serve(async (req) => {
   );
 
   // Обработка команды /start
-  if (message.text === "/start") {
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: message.chat.id,
-        text: "Здравствуйте! Опишите вашу проблему, и мы поможем.",
-      }),
-    });
-    console.log(`Приветственное сообщение отправлено в чат ${message.chat.id}`);
-    return new Response("OK", { status: 200 });
+  if (isStartCommand(message.text)) {
+    await handleStartCommand(BOT_TOKEN, message.chat.id);
+    return createOkResponse();
   }
-
-  // Создаём клиент Supabase
-  const supabase = createClient(
-    Deno.env.get("SUPABASE_URL") || Deno.env.get("DB_URL")!,
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || Deno.env.get("SERVICE_ROLE_KEY")!
-  );
 
   // Сохраняем сообщение в БД
-  const { error } = await supabase.from("messages").insert({
-    telegram_chat_id: message.chat.id,
-    username: message.from.first_name || "Unknown",
-    text: message.text,
-  });
-
-  if (error) {
-    console.error("Ошибка записи в БД:", error.message);
-  } else {
-    console.log("Сообщение сохранено в БД");
-  }
+  await saveMessageToDatabase(
+    message.chat.id,
+    message.from.first_name,
+    message.text,
+  );
 
   // Отправляем эхо-ответ пользователю
-  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: message.chat.id,
-      text: `🤖 Вы написали: ${message.text}`,
-    }),
-  });
+  await sendTelegramMessage(
+    BOT_TOKEN,
+    message.chat.id,
+    `🤖 Вы написали: ${message.text}`,
+  );
 
-  console.log(`Эхо-ответ отправлен в чат ${message.chat.id}`);
-
-  return new Response("OK", { status: 200 });
+  return createOkResponse();
 });

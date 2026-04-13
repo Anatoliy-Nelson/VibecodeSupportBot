@@ -429,42 +429,58 @@ classDiagram
 
 ```mermaid
 classDiagram
-    class WebhookHandler {
-        +Request req
-        +Response res
-        +handlePOST() Promise~Response~
-        +verifyRequest() bool
-        +processMessage(message) Promise
+    class index_ts {
+        +BOT_TOKEN string
+        +serve(req) Promise~Response~
+    }
+
+    class cors_ts {
+        +CORS_HEADERS object
+        +handleCorsPreflight() Response
+        +withCorsHeaders(response) Response
+    }
+
+    class validation_ts {
+        +isPostRequest(method) bool
+        +parseRequestBody(req) Promise~any~
+        +hasTextMessage(body) bool
+        +createMethodNotAllowedResponse() Response
+        +createOkResponse() Response
+    }
+
+    class telegram_ts {
+        +TELEGRAM_API_BASE string
+        +sendTelegramMessage(token, chatId, text) Promise~bool~
+    }
+
+    class database_ts {
+        -supabaseInstance SupabaseClient
+        +getSupabaseClient() SupabaseClient
+        +saveMessageToDatabase(chatId, username, text) Promise~object~
+    }
+
+    class start_command_ts {
+        +WELCOME_MESSAGE string
+        +isStartCommand(text) bool
+        +handleStartCommand(token, chatId) Promise~bool~
     }
 
     class TelegramMessage {
-        +number update_id
-        +Message message
         +number chat_id
-        +string username
+        +object from
         +string text
+        +string first_name
         +Date date
     }
 
-    class SupabaseService {
-        -string serviceRoleKey
-        -string url
-        +insertMessage(data) Promise
-        +getMessages() Promise
-        +getMessagesByChat(chat_id) Promise
-    }
-
-    class BotResponse {
-        +string chat_id
-        +string text
-        +string parse_mode
-        +toJSON() object
-    }
-
-    WebhookHandler --> TelegramMessage : парсит
-    WebhookHandler --> SupabaseService : сохраняет
-    WebhookHandler --> BotResponse : создаёт
-    SupabaseService --> TelegramMessage : работает с
+    index_ts --> cors_ts : использует
+    index_ts --> validation_ts : использует
+    index_ts --> telegram_ts : использует
+    index_ts --> database_ts : использует
+    index_ts --> start_command_ts : использует
+    start_command_ts --> telegram_ts : вызывает
+    database_ts --> TelegramMessage : работает с
+    validation_ts --> TelegramMessage : парсит
 ```
 
 ---
