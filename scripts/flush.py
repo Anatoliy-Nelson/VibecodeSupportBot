@@ -139,7 +139,7 @@ respond with exactly: FLUSH_OK
     return response
 
 
-COMPILE_AFTER_HOUR = 18  # 6 PM local time
+COMPILE_AFTER_HOUR = 0  # 00:05 (just after midnight) local time
 
 
 def maybe_trigger_compilation() -> None:
