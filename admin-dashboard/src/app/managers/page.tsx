@@ -181,23 +181,23 @@ export default function ManagersPage() {
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
             <thead>
-              <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[200px] px-4 py-4 font-medium text-black dark:text-white">
+              <tr className="bg-gray-100 dark:bg-dark-2 text-left">
+                <th className="min-w-[200px] px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Менеджер
                 </th>
-                <th className="min-w-[200px] px-4 py-4 font-medium text-black dark:text-white">
+                <th className="min-w-[200px] px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Email
                 </th>
-                <th className="px-4 py-4 font-medium text-black dark:text-white">
+                <th className="px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Telegram Chat ID
                 </th>
-                <th className="px-4 py-4 font-medium text-black dark:text-white">
+                <th className="px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Статус
                 </th>
-                <th className="px-4 py-4 font-medium text-black dark:text-white">
+                <th className="px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Нагрузка
                 </th>
-                <th className="px-4 py-4 font-medium text-black dark:text-white">
+                <th className="px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Роль
                 </th>
               </tr>
@@ -221,7 +221,7 @@ export default function ManagersPage() {
                   const loadColor = loadPercentage >= 90 ? "bg-red-500" : loadPercentage >= 70 ? "bg-yellow-500" : "bg-green-500";
 
                   return (
-                    <tr key={manager.id} className="border-b border-stroke dark:border-strokedark">
+                    <tr key={manager.id} className="border-b border-stroke dark:border-strokedark dark:hover:bg-meta-4">
                       <td className="px-4 py-4">
                         <p className="font-medium text-black dark:text-white">
                           {manager.admin_users.full_name || "Без имени"}
@@ -324,7 +324,7 @@ function CreateManagerModal({ onClose, onSubmit }: { onClose: () => void; onSubm
               type="text"
               value={formData.admin_user_id}
               onChange={(e) => setFormData({ ...formData, admin_user_id: e.target.value })}
-              className="w-full rounded-lg border border-stroke bg-white px-4 py-2 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4"
+              className="w-full rounded-lg border border-stroke bg-white dark:bg-meta-4 px-4 py-2 text-sm text-black dark:text-white outline-none focus:border-primary dark:border-strokedark"
               placeholder="UUID из таблицы admin_users"
               required
             />
@@ -341,7 +341,7 @@ function CreateManagerModal({ onClose, onSubmit }: { onClose: () => void; onSubm
               type="number"
               value={formData.telegram_chat_id}
               onChange={(e) => setFormData({ ...formData, telegram_chat_id: e.target.value })}
-              className="w-full rounded-lg border border-stroke bg-white px-4 py-2 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4"
+              className="w-full rounded-lg border border-stroke bg-white dark:bg-meta-4 px-4 py-2 text-sm text-black dark:text-white outline-none focus:border-primary dark:border-strokedark"
               placeholder="Для уведомлений"
             />
           </div>
@@ -354,7 +354,7 @@ function CreateManagerModal({ onClose, onSubmit }: { onClose: () => void; onSubm
               type="number"
               value={formData.max_tickets}
               onChange={(e) => setFormData({ ...formData, max_tickets: e.target.value })}
-              className="w-full rounded-lg border border-stroke bg-white px-4 py-2 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4"
+              className="w-full rounded-lg border border-stroke bg-white dark:bg-meta-4 px-4 py-2 text-sm text-black dark:text-white outline-none focus:border-primary dark:border-strokedark"
               min="1"
               max="100"
             />

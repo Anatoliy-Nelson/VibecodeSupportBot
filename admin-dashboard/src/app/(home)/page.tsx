@@ -131,33 +131,33 @@ export default function Home() {
           <div className="max-w-full overflow-x-auto">
             <table className="w-full table-auto">
               <thead>
-                <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                  <th className="px-6 py-4 font-medium text-black dark:text-white">
+                <tr className="bg-gray-100 dark:bg-dark-2 text-left">
+                  <th className="px-6 py-4 font-semibold text-gray-700 dark:text-white">
                     Менеджер
                   </th>
-                  <th className="px-6 py-4 font-medium text-black dark:text-white">
+                  <th className="px-6 py-4 font-semibold text-gray-700 dark:text-white">
                     Онлайн
                   </th>
-                  <th className="px-6 py-4 font-medium text-black dark:text-white">
+                  <th className="px-6 py-4 font-semibold text-gray-700 dark:text-white">
                     Новые
                   </th>
-                  <th className="px-6 py-4 font-medium text-black dark:text-white">
+                  <th className="px-6 py-4 font-semibold text-gray-700 dark:text-white">
                     В работе
                   </th>
-                  <th className="px-6 py-4 font-medium text-black dark:text-white">
+                  <th className="px-6 py-4 font-semibold text-gray-700 dark:text-white">
                     Ожидание
                   </th>
-                  <th className="px-6 py-4 font-medium text-black dark:text-white">
+                  <th className="px-6 py-4 font-semibold text-gray-700 dark:text-white">
                     Закрытые
                   </th>
-                  <th className="px-6 py-4 font-medium text-black dark:text-white">
+                  <th className="px-6 py-4 font-semibold text-gray-700 dark:text-white">
                     Нагрузка
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {managers.map((manager: any) => (
-                  <tr key={manager.manager_id} className="border-b border-stroke dark:border-strokedark">
+                  <tr key={manager.manager_id} className="border-b border-stroke dark:border-strokedark dark:hover:bg-meta-4">
                     <td className="px-6 py-4">
                       <p className="font-medium text-black dark:text-white">
                         {manager.manager_name || manager.manager_email}

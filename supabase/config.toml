@@ -408,6 +408,6 @@ entrypoint = "./functions/telegram-webhook/index.ts"
 
 [functions.admin-api]
 enabled = true
-verify_jwt = true
+verify_jwt = false
 import_map = "./functions/admin-api/deno.json"
 entrypoint = "./functions/admin-api/index.ts"

@@ -242,26 +242,26 @@ export default function TicketsPage() {
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
             <thead>
-              <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white">
+              <tr className="bg-gray-100 dark:bg-[#1F2A37] text-left">
+                <th className="min-w-[220px] px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Пользователь
                 </th>
-                <th className="min-w-[200px] px-4 py-4 font-medium text-black dark:text-white">
+                <th className="min-w-[200px] px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Тема
                 </th>
-                <th className="px-4 py-4 font-medium text-black dark:text-white">
+                <th className="px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Статус
                 </th>
-                <th className="px-4 py-4 font-medium text-black dark:text-white">
+                <th className="px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Приоритет
                 </th>
-                <th className="px-4 py-4 font-medium text-black dark:text-white">
+                <th className="px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Менеджер
                 </th>
-                <th className="px-4 py-4 font-medium text-black dark:text-white">
+                <th className="px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Создан
                 </th>
-                <th className="px-4 py-4 font-medium text-black dark:text-white">
+                <th className="px-4 py-4 font-semibold text-gray-700 dark:text-white">
                   Действия
                 </th>
               </tr>
@@ -281,7 +281,7 @@ export default function TicketsPage() {
                 </tr>
               ) : (
                 filteredTickets.map((ticket) => (
-                  <tr key={ticket.id} className="border-b border-stroke dark:border-strokedark">
+                  <tr key={ticket.id} className="border-b border-stroke dark:border-strokedark dark:hover:bg-meta-4">
                     <td className="px-4 py-4">
                       <div>
                         <p className="font-medium text-black dark:text-white">
@@ -418,7 +418,7 @@ function CreateTicketModal({ onClose, onSubmit, managers }: any) {
               type="number"
               value={formData.user_chat_id}
               onChange={(e) => setFormData({ ...formData, user_chat_id: e.target.value })}
-              className="w-full rounded-lg border border-stroke bg-white px-4 py-2 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4"
+              className="w-full rounded-lg border border-stroke bg-white dark:bg-meta-4 px-4 py-2 text-sm text-black dark:text-white outline-none focus:border-primary dark:border-strokedark"
               required
             />
           </div>
@@ -431,7 +431,7 @@ function CreateTicketModal({ onClose, onSubmit, managers }: any) {
               type="text"
               value={formData.subject}
               onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-              className="w-full rounded-lg border border-stroke bg-white px-4 py-2 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4"
+              className="w-full rounded-lg border border-stroke bg-white dark:bg-meta-4 px-4 py-2 text-sm text-black dark:text-white outline-none focus:border-primary dark:border-strokedark"
             />
           </div>
 
@@ -442,7 +442,7 @@ function CreateTicketModal({ onClose, onSubmit, managers }: any) {
             <select
               value={formData.manager_id}
               onChange={(e) => setFormData({ ...formData, manager_id: e.target.value })}
-              className="w-full rounded-lg border border-stroke bg-white px-4 py-2 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4"
+              className="w-full rounded-lg border border-stroke bg-white dark:bg-meta-4 px-4 py-2 text-sm text-black dark:text-white outline-none focus:border-primary dark:border-strokedark"
             >
               <option value="">Без менеджера</option>
               {managers.map((m: Manager) => (
@@ -608,11 +608,11 @@ function TicketDetailModal({ ticket, onClose, onAssign, onStatusChange, managers
             <label className="mb-1 block text-sm font-medium text-black dark:text-white">
               Ответить
             </label>
-            <textarea
+              <textarea
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               rows={4}
-              className="w-full rounded-lg border border-stroke bg-white px-4 py-2 text-sm outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4"
+              className="w-full rounded-lg border border-stroke bg-white dark:bg-meta-4 px-4 py-2 text-sm text-black dark:text-white outline-none focus:border-primary dark:border-strokedark"
               placeholder="Введите ответ менеджеру..."
             />
             <button

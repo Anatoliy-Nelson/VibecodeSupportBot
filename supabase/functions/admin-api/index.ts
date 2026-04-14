@@ -21,8 +21,8 @@ import { createClient } from "@supabase/supabase-js";
 // Инициализация Supabase
 // ============================================
 function getSupabaseClient() {
-  const supabaseUrl = Deno.env.get("SUPABASE_URL") || Deno.env.get("DB_URL");
-  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || Deno.env.get("SERVICE_ROLE_KEY");
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
   if (!supabaseUrl || !serviceRoleKey) {
     throw new Error("Missing Supabase environment variables");
@@ -80,6 +80,9 @@ serve(async (req) => {
   if (req.method === "OPTIONS") {
     return handleCors();
   }
+
+  // TODO: Добавить авторизацию (Supabase Auth или API-ключ)
+  // Пока отключено для локальной разработки
 
   const url = new URL(req.url);
   const path = url.pathname;
@@ -382,6 +385,25 @@ serve(async (req) => {
       await sendToUserViaBot(ticket.user_id, text, ticketId);
 
       return jsonResponse({ success: true });
+    }
+
+    // ============================================
+    // GET /admin-api/users - все пользователи
+    // ============================================
+    if (method === "GET" && path === "/admin-api/users") {
+      const limit = parseInt(url.searchParams.get("limit") || "100");
+
+      const { data: users, error } = await supabase
+        .from("telegram_users")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(limit);
+
+      if (error) {
+        return errorResponse(error.message);
+      }
+
+      return jsonResponse({ users });
     }
 
     // ============================================
